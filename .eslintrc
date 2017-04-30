@@ -1,0 +1,18 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "plugins": ["react"],
+  "globals": {
+    "FlowRouter": false,
+    "Meteor": false,
+    "window": false,
+    "document": false
+  },
+  "settings": {
+    "import/core-modules": [ "meteor/meteor", "meteor/mongo", "meteor/session" ]
+  },
+  "rules": {
+    "jsx-a11y/no-static-element-interactions": 0,
+    "no-confusing-arrow": ["error", {"allowParens": true}]
+  }
+}

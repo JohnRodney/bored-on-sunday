@@ -1,0 +1,6 @@
+**/*.json
+**/*.log
+**/*.css
+.meteor/
+node_modules/
+public/
