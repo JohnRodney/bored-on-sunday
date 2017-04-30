@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from "react-dom";
-import CodeMirrior from 'codemirror';
-require('codemirror/mode/jsx/jsx.js');
+import CodeMirror from 'codemirror';
+import 'codemirror/mode/shell/shell';
+import LS from './textrenderers/ls';
+import Default from './textrenderers/default';
 // import PropTypes from 'prop-types';
 export default class CodeEditor extends React.Component {
   constructor() {
@@ -12,32 +13,38 @@ export default class CodeEditor extends React.Component {
 
   componentDidMount() {
     this.setupCodeMirror();
-    Meteor.call('runCode', 'cat local.css', (err, res) => {
+    Meteor.call('runCode', 'ls', (err, res) => {
       if (res.err) {
         this.setState({ err });
       } else {
         this.setState({ err: false, content: res.out });
       }
     });
-
   }
 
   setDefaultState() {
     this.state = {
-      codeMirror: {},
-      content: "hello input something into the terminal"
+      terminal: {},
+      content: 'hello input something into the terminal',
     };
   }
 
   setupCodeMirror() {
-    this.setState({ codeMirror: CodeMirrior.fromTextArea(document.getElementById('mirror-target'), {
-      lineNumbers: true,
-      mode:  'jsx'    }) });
+    const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById('mirror-target'), {
+      mode: 'shell',
+      extraKeys: { Enter: () => this.runCode() },
+      theme: 'solarized dark',
+      autofocus: true,
+      command: '',
+    });
+    codeMirrorInstance.setSize(200, 30);
+    this.setState({ terminal: codeMirrorInstance });
   }
 
   runCode() {
-
-    Meteor.call('runCode', this.state.codeMirror.getValue(), (err, res) => {
+    const command = this.state.terminal.getValue();
+    this.setState({ command });
+    Meteor.call('runCode', command, (err, res) => {
       if (res.err) {
         this.setState({ err: res.err, details: res.details });
       } else {
@@ -46,17 +53,57 @@ export default class CodeEditor extends React.Component {
     });
   }
 
-  render() {
+  findRenderer() {
+    if (true) {
+      return <LS content={this.state.content} />;
+    }
+    return <Default content={this.state.content} />;
+  }
+
+  reOpen() {
+    this.setState({ button: false });
+    setTimeout(() => {
+      const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById('mirror-target'), {
+        mode: 'shell',
+        extraKeys: { Enter: () => this.runCode() },
+        theme: 'solarized dark',
+        autofocus: true,
+        command: '',
+      });
+      codeMirrorInstance.setSize(200, 30);
+      this.setState({ terminal: codeMirrorInstance });
+    }, 1000);
+  }
+
+  defaultLayout(renderer) {
     return (
       <div>
+        <div className="close" onClick={() => this.setState({ button: true })} />
+        <div className="terminal-home">$</div>
         <textarea id="mirror-target" />
-        <button onClick={this.runCode}>Execute</button>
+        <button className="exec-terminal" onClick={this.runCode}>Click to execute or hit enter</button>
         <div id="js-target">
           <div>
-          {this.state.content}
-          { this.state.err ? this.state.details : ''}
+            <pre>{ this.state.err ? this.state.details : ''}</pre>
           </div>
+          { renderer }
         </div>
+      </div>
+    );
+  }
+
+  buttonLayout() {
+    return (
+      <button onClick={() => this.reOpen()}>T</button>
+    );
+  }
+
+  render() {
+    const renderer = this.findRenderer();
+    const defaultLayout = this.defaultLayout(renderer);
+    return (
+      <div className={`terminal-container ${this.state.button ? 'component-as-button' : ''}`}>
+        { this.state.button ? this.buttonLayout() : defaultLayout }
       </div>
     );
   }

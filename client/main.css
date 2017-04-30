@@ -1,5 +1,8 @@
 /* BASICS */
-
+*{
+  padding: 0;
+  margin: 0;
+}
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
@@ -338,3 +341,83 @@ div.CodeMirror-dragcursors {
 
 /* Help users use markselection to safely style text background */
 span.CodeMirror-selectedtext { background: none; }
+body{
+  background-color: white;
+  color: black;
+}
+.terminal-home{
+  position: absolute;
+  z-index: 2;
+  left: 30px;
+  top: 24px;
+  color: #878787
+}
+.CodeMirror{
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 20px;
+}
+.exec-terminal{
+  border: 0;
+  margin: 0;
+  padding: 8px;
+  background-color: #E64A19;
+  color: white;
+}
+.terminal-container{
+  margin-top: 50px;
+  padding: 20px;
+  position: relative;
+  width: 80%;
+  background-color: #767676;
+  margin-left: 20px;
+  box-shadow: 0 0 10px #565656;
+  color: white;
+}
+.an-ls-word{
+  margin-top: 5px;
+  margin-right: 5px;
+  box-shadow: 0 0 2px black;
+}
+.an-ls-word:nth-child(odd){
+  display: inline-block;
+  padding: 10px;
+  background-color: #03A9F4;
+}
+.an-ls-word:nth-child(even){
+  display: inline-block;
+  padding: 10px;
+  background-color: #4527A0;
+}
+#js-target{
+  max-height: 200px;
+  overflow-y: scroll;
+}
+.component-as-button{
+  position: fixed;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 100%;
+  padding: 0;
+}
+.component-as-button button{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: transparent;
+  border: 0;
+  font-size: 16px;
+  color: white;
+}
+.close:after{
+  padding: 5px 10px 5px 10px;
+  border-radius: 100%;
+  background-color: #656565;
+  color: #FF5722;
+  content: 'X';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

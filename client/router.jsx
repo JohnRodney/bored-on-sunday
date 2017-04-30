@@ -1,9 +1,9 @@
 import { mount } from 'react-mounter';
-import editor from '../imports/ui/editor';
+import home from '../imports/ui/home';
 
 FlowRouter.route('/', {
   name: 'home',
   action() {
-    mount(editor);
+    mount(home);
   },
 });
