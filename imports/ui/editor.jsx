@@ -12,7 +12,14 @@ export default class CodeEditor extends React.Component {
 
   componentDidMount() {
     this.setupCodeMirror();
-    window.React = React;
+    Meteor.call('runCode', 'cat local.css', (err, res) => {
+      if (res.err) {
+        this.setState({ err });
+      } else {
+        this.setState({ err: false, content: res.out });
+      }
+    });
+
   }
 
   setDefaultState() {
@@ -29,9 +36,13 @@ export default class CodeEditor extends React.Component {
   }
 
   runCode() {
+
     Meteor.call('runCode', this.state.codeMirror.getValue(), (err, res) => {
-      console.log(res);
-      this.setState({ content: res })
+      if (res.err) {
+        this.setState({ err: res.err, details: res.details });
+      } else {
+        this.setState({ err: false, content: res.out });
+      }
     });
   }
 
@@ -41,9 +52,10 @@ export default class CodeEditor extends React.Component {
         <textarea id="mirror-target" />
         <button onClick={this.runCode}>Execute</button>
         <div id="js-target">
-          <ul>
-          {this.state.content.split("\n").filter((line) => line.length !== 0).map((line) => <li key={Meteor.uuid()}>{line}</li>)}
-          </ul>
+          <div>
+          {this.state.content}
+          { this.state.err ? this.state.details : ''}
+          </div>
         </div>
       </div>
     );

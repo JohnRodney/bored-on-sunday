@@ -5,11 +5,11 @@ Meteor.startup(() => {
   Meteor.methods({
     runCode(cmd) {
       return new Promise((resolve) => {
-        exec(cmd, (err, out) => {
+        exec(cmd, (err, out, details) => {
           if (err instanceof Error) {
-            resolve(JSON.stringify(err));
+            resolve({err, out, details });
           }
-          resolve(out);
+          resolve({ err, out, details });
         });
       });
     },
