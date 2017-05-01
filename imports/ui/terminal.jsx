@@ -1,5 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import CodeMirror from 'codemirror';
+import { Meteor } from 'meteor/meteor'
 import 'codemirror/mode/shell/shell';
 import LS from './textrenderers/ls';
 import Default from './textrenderers/default';
@@ -9,6 +11,7 @@ export default class CodeEditor extends React.Component {
     super();
     this.setDefaultState();
     this.runCode = this.runCode.bind(this);
+    this.id = Meteor.uuid();
   }
 
   componentDidMount() {
@@ -30,14 +33,15 @@ export default class CodeEditor extends React.Component {
   }
 
   setupCodeMirror() {
-    const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById('mirror-target'), {
+    const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById(this.id), {
       mode: 'shell',
       extraKeys: { Enter: () => this.runCode() },
       theme: 'solarized dark',
       autofocus: true,
       command: '',
     });
-    codeMirrorInstance.setSize(200, 30);
+    codeMirrorInstance.setValue("babel --presets es2015,react some.jsx");
+    codeMirrorInstance.setSize(600, 30);
     this.setState({ terminal: codeMirrorInstance });
   }
 
@@ -48,7 +52,8 @@ export default class CodeEditor extends React.Component {
       if (res.err) {
         this.setState({ err: res.err, details: res.details });
       } else {
-        this.setState({ err: false, content: res.out });
+        this.props.childProps.addComponent(eval(res.out))
+        this.setState({ err: false, content: '' });
       }
     });
   }
@@ -60,27 +65,11 @@ export default class CodeEditor extends React.Component {
     return <Default content={this.state.content} />;
   }
 
-  reOpen() {
-    this.setState({ button: false });
-    setTimeout(() => {
-      const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById('mirror-target'), {
-        mode: 'shell',
-        extraKeys: { Enter: () => this.runCode() },
-        theme: 'solarized dark',
-        autofocus: true,
-        command: '',
-      });
-      codeMirrorInstance.setSize(200, 30);
-      this.setState({ terminal: codeMirrorInstance });
-    }, 1000);
-  }
-
   defaultLayout(renderer) {
     return (
       <div>
-        <div className="close" onClick={() => this.setState({ button: true })} />
         <div className="terminal-home">$</div>
-        <textarea id="mirror-target" />
+        <textarea id={this.id} />
         <button className="exec-terminal" onClick={this.runCode}>Click to execute or hit enter</button>
         <div id="js-target">
           <div>
@@ -92,18 +81,12 @@ export default class CodeEditor extends React.Component {
     );
   }
 
-  buttonLayout() {
-    return (
-      <button onClick={() => this.reOpen()}>T</button>
-    );
-  }
-
   render() {
     const renderer = this.findRenderer();
     const defaultLayout = this.defaultLayout(renderer);
     return (
-      <div className={`terminal-container ${this.state.button ? 'component-as-button' : ''}`}>
-        { this.state.button ? this.buttonLayout() : defaultLayout }
+      <div className="terminal-container">
+        { defaultLayout }
       </div>
     );
   }
