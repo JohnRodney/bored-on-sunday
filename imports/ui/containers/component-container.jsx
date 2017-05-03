@@ -25,25 +25,31 @@ export default class ComponentContainer extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log('hello', nextState.fullscreen, !this.hasBeenSetToFullscreen)
     if (nextState.fullscreen && !this.hasBeenSetToFullscreen) { this.setToFullScreen(); }
     if (!nextState.fullscreen && this.hasBeenSetToFullscreen) { this.toggleOffFullScreen(); }
   }
 
   setToFullScreen() {
     const { clientWidth, clientHeight } = document.body;
-    this.oldSize = {
+    const bodyRect = document.body.getBoundingClientRect();
+    const elemRect = this.rnd.wrapper.getBoundingClientRect();
+
+    this.oldSizePos = {
       width: this.rnd.wrapper.offsetWidth,
       height: this.rnd.wrapper.offsetHeight,
+      x: elemRect.left - bodyRect.left,
+      y: elemRect.top - bodyRect.top,
     };
 
     this.rnd.updateSize({ width: clientWidth - 40, height: clientHeight - 80 });
+    this.rnd.updatePosition({ x: 0, y: 0 });
     this.hasBeenSetToFullscreen = true;
   }
 
   toggleOffFullScreen() {
-    const { width, height } = this.oldSize;
+    const { width, height, x, y } = this.oldSizePos;
     this.rnd.updateSize({ width, height });
+    this.rnd.updatePosition({ x, y });
     this.hasBeenSetToFullscreen = false;
   }
 
@@ -65,7 +71,7 @@ export default class ComponentContainer extends React.Component {
         default={{
           x: 0,
           y: 0,
-          width: '100%',
+          width: '90%',
         }}
         bounds=".page"
       >
