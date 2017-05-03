@@ -1,28 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import CodeMirror from 'codemirror';
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 import 'codemirror/mode/shell/shell';
 import LS from './textrenderers/ls';
 import Default from './textrenderers/default';
-// import PropTypes from 'prop-types';
-export default class CodeEditor extends React.Component {
+
+export default class Terminal extends React.Component {
   constructor() {
     super();
     this.setDefaultState();
     this.runCode = this.runCode.bind(this);
     this.id = Meteor.uuid();
+    this.handleTerminalResponse = this.handleTerminalResponse.bind(this);
   }
 
   componentDidMount() {
     this.setupCodeMirror();
-    Meteor.call('runCode', 'ls', (err, res) => {
-      if (res.err) {
-        this.setState({ err });
-      } else {
-        this.setState({ err: false, content: res.out });
-      }
-    });
   }
 
   setDefaultState() {
@@ -32,34 +26,45 @@ export default class CodeEditor extends React.Component {
     };
   }
 
-  setupCodeMirror() {
-    const codeMirrorInstance = CodeMirror.fromTextArea(document.getElementById(this.id), {
+  getCodeMirrorOptions() {
+    return {
       mode: 'shell',
       extraKeys: { Enter: () => this.runCode() },
       theme: 'solarized dark',
       autofocus: true,
       command: '',
-    });
-    codeMirrorInstance.setValue("babel --presets es2015,react some.jsx");
+    };
+  }
+
+  setupCodeMirror() {
+    const { fromTextArea } = CodeMirror;
+    const target = document.getElementById(this.id);
+    const options = this.getCodeMirrorOptions();
+    const codeMirrorInstance = fromTextArea(target, options);
+
+    codeMirrorInstance.setValue('babel --presets es2015,react some.jsx');
     codeMirrorInstance.setSize(600, 30);
     this.setState({ terminal: codeMirrorInstance });
+  }
+
+  handleTerminalResponse(err, res) {
+    let component = false;
+    try {
+      component = eval(res.out);
+    } catch (e) { component = false; }
+    if (component) this.props.childProps.addComponent(component);
+
+    this.setState({ err: res.err, content: res.out, details: res.details });
   }
 
   runCode() {
     const command = this.state.terminal.getValue();
     this.setState({ command });
-    Meteor.call('runCode', command, (err, res) => {
-      if (res.err) {
-        this.setState({ err: res.err, details: res.details });
-      } else {
-        this.props.childProps.addComponent(eval(res.out))
-        this.setState({ err: false, content: '' });
-      }
-    });
+    Meteor.call('runCode', command, this.handleTerminalResponse);
   }
 
   findRenderer() {
-    if (true) {
+    if (typeof (this.state.content) === 'string') {
       return <LS content={this.state.content} />;
     }
     return <Default content={this.state.content} />;
@@ -92,6 +97,12 @@ export default class CodeEditor extends React.Component {
   }
 }
 
-CodeEditor.defaultProps = {};
+Terminal.defaultProps = {
+  childProps: {},
+};
 
-CodeEditor.propTypes = {};
+Terminal.propTypes = {
+  childProps: PropTypes.shape({
+    addComponent: PropTypes.func,
+  }).isRequired,
+};

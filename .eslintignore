@@ -1,6 +1,8 @@
 **/*.json
 **/*.log
 **/*.css
+**/*.html
+**/*.md
 .meteor/
 node_modules/
 public/

@@ -6,8 +6,12 @@ html, body, .page, #react-root{
 }
 body{
   background: url('https://s-media-cache-ak0.pinimg.com/originals/6d/35/16/6d3516fbaab75552f79c3d19facfbb34.jpg');
-  background-size: 100% auto;
+  background-size: auto 100%;
+  background-position: center center;
   opacity: 0.9;
+}
+ul{
+  list-style-type: none;
 }
 *{
   padding: 0;
@@ -400,7 +404,7 @@ body{
 #js-target{
   overflow-y: scroll;
 }
-.component-as-button{
+.component-as-button.a-component{
   width: 60px;
   height: 60px;
   overflow: hidden;
@@ -408,6 +412,12 @@ body{
   padding: 0;
   background-color: #545454;
   box-shadow: 0 0 10px #686868;
+}
+.resize-component-as-button.react-draggable.react-draggable-dragged,
+.resize-component-as-button.react-draggable.react-draggable-dragged > div{
+  width: 60px !important;
+  height: 60px  !important;
+  overflow: hidden;
 }
 .component-as-button button{
   width: 100%;
@@ -434,6 +444,8 @@ body{
 }
 .a-component{
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 .resize{
   position: absolute;
@@ -462,4 +474,35 @@ body{
   background-color: #767676;
   box-shadow: 0 0 10px #565656;
   color: white;
+}
+.menu-icon{
+  color: white;
+  background-color: #039BE5;
+  box-shadow: 0 0 5px black;
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  padding-top: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+  transition: .5s ease-in-out;
+  z-index: 10;
+  opacity: 1;
+}
+.component-menu{
+  position: absolute;
+  top: 20px;
+  right: -50px;
+}
+.menu-icon *{
+  transition: .5s ease-in-out;
+}
+.hide{
+  opacity: 0;
+  height: 0;
+  width: 0;
+  font-size: 0;
+  padding-top: 20px;
+  padding-left: 20px;
 }

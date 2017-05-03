@@ -1,9 +1,7 @@
 import React from 'react';
 import CodeMirror from 'codemirror';
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
 import 'codemirror/mode/jsx/jsx';
-import LS from './textrenderers/ls';
-import Default from './textrenderers/default';
 import boilerPlate from './boilerplate';
 // import PropTypes from 'prop-types';
 
@@ -40,20 +38,24 @@ export default class CodeEditor extends React.Component {
 
   saveFile() {
     const code = this.state.jsxeditor.getValue();
-    Meteor.call('runCode', `echo \"${code}\" > some.jsx`, (err, res) => {
+    Meteor.call('runCode', `echo "${code}" > some.jsx`, (err, res) => {
       if (res.err) {
         this.setState({ err });
       } else {
         this.setState({ err: false, content: res.out });
       }
     });
-    console.log(this.state.jsxeditor.getValue())
   }
 
   defaultLayout() {
     return (
       <div>
-        <textarea id={this.id} />
+        <div
+          onMouseDown={e => e.stopPropagation()}
+          className="code-mirror-container"
+        >
+          <textarea id={this.id} />
+        </div>
         <button className="compile" onClick={() => this.saveFile()}>Click to save your react component</button>
         <div id="js-target">
           <div>

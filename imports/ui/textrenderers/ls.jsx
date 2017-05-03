@@ -1,7 +1,8 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import PropTypes from 'prop-types';
 
-export default (props) => {
+export default function LsRenderer(props) {
   const { content } = props;
   return (
     <div>
@@ -14,4 +15,8 @@ export default (props) => {
       </ol>
     </div>
   );
+}
+
+LsRenderer.propTypes = {
+  content: PropTypes.string.isRequired,
 };
