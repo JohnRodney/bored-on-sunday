@@ -73,6 +73,7 @@ export default class Terminal extends React.Component {
   defaultLayout(renderer) {
     return (
       <div>
+        <div className='terminal-title'>Your Shell</div><br />
         <div className="terminal-home">$</div>
         <textarea id={this.id} />
         <button className="exec-terminal" onClick={this.runCode}>Click to execute or hit enter</button>

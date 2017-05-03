@@ -3,7 +3,7 @@ import CodeMirror from 'codemirror';
 import { Meteor } from 'meteor/meteor';
 import 'codemirror/mode/jsx/jsx';
 import boilerPlate from './boilerplate';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 export default class CodeEditor extends React.Component {
@@ -17,9 +17,18 @@ export default class CodeEditor extends React.Component {
     this.setupCodeMirror();
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.fullscreen && !this.props.fullscreen) {
+      this.goFullScreen(document.body.clientWidth - 40, document.body.clientHeight - 80);
+    } else if (!nextProps.fullscreen && this.props.fullscreen) {
+      console.log('leaving')
+      this.leaveFullScreen();
+    }
+  }
+
   setDefaultState() {
     this.state = {
-      jsxeditor: {},
+      jsxEditor: {},
     };
   }
 
@@ -33,11 +42,11 @@ export default class CodeEditor extends React.Component {
     });
 
     codeMirrorInstance.setValue(boilerPlate);
-    this.setState({ jsxeditor: codeMirrorInstance });
+    this.setState({ jsxEditor: codeMirrorInstance });
   }
 
   saveFile() {
-    const code = this.state.jsxeditor.getValue();
+    const code = this.state.jsxEditor.getValue();
     Meteor.call('runCode', `echo "${code}" > some.jsx`, (err, res) => {
       if (res.err) {
         this.setState({ err });
@@ -45,6 +54,20 @@ export default class CodeEditor extends React.Component {
         this.setState({ err: false, content: res.out });
       }
     });
+  }
+
+
+  leaveFullScreen() {
+    const codeMirrorInstance = this.state.jsxEditor;
+    const height = this.oldHeight;
+    codeMirrorInstance.setSize('100%', height);
+  }
+
+  goFullScreen(x, y) {
+    const codeMirrorInstance = this.state.jsxEditor;
+    const height = document.querySelector('.code-mirror-container').offsetHeight;
+    this.oldHeight = height;
+    codeMirrorInstance.setSize('100%', y - 40);
   }
 
   defaultLayout() {
@@ -78,4 +101,6 @@ export default class CodeEditor extends React.Component {
 
 CodeEditor.defaultProps = {};
 
-CodeEditor.propTypes = {};
+CodeEditor.propTypes = {
+  fullscreen: PropTypes.bool.isRequired,
+};

@@ -2,6 +2,7 @@ import React from 'react';
 import Terminal from './terminal';
 import JsxEditor from './jsxeditor';
 import ComponentContainer from './containers/component-container';
+import Background from './background';
 /* TODO: in order for a created component to have a dependency via
  * import I need to import it here.  Depenedency chain needs to be refactored
  * so users can import any valid publish NPM packages.
@@ -36,24 +37,28 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div className="page">
-        {
-          this.state.Components.map(Component => (
-            <div
-              key={`${Component.id}`}
-              className="component-container"
-            >
-              <ComponentContainer
-                childProps={{
-                  addComponent: component => this.pushComponent(component),
-                }}
-                content={Component.Component}
-                label={Component.label}
-              />
-            </div>
-          ))
-        }
+      <div>
+        <Background />
+        <div className="page">
+          {
+            this.state.Components.map(Component => (
+              <div
+                key={`${Component.id}`}
+                className="component-container"
+              >
+                <ComponentContainer
+                  childProps={{
+                    addComponent: component => this.pushComponent(component),
+                  }}
+                  content={Component.Component}
+                  label={Component.label.toString()}
+                />
+              </div>
+            ))
+          }
+        </div>
       </div>
+
     );
   }
 }

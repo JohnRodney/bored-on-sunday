@@ -73,6 +73,16 @@ export default class ComponentContainer extends React.Component {
           y: 0,
           width: '90%',
         }}
+        resizeHandlerClasses={{
+          bottom: 'resize-handle',
+          bottomLeft: 'resize-handle',
+          bottomRight: 'resize-handle',
+          left: 'resize-handle',
+          right: 'resize-handle',
+          top: 'resize-handle',
+          topLeft: 'resize-handle',
+          topRight: 'resize-handle',
+        }}
         bounds=".page"
       >
         <div className={`a-component ${this.state.button ? 'component-as-button' : ''}`}>
@@ -80,7 +90,7 @@ export default class ComponentContainer extends React.Component {
             this.state.button ? label :
             <ComponentMenu fullscreen={this.state.fullscreen} items={this.MenuItems} />
           }
-          <Content childProps={this.props.childProps} />
+          <Content childProps={this.props.childProps} fullscreen={this.state.fullscreen} />
         </div>
       </ResizableBox>
     );
