@@ -25,7 +25,7 @@ export default class Background extends React.Component {
       cubes: Background.setupCubes(),
       camera: {
         position: new THREE.Vector3(0, 10, -20),
-        lookAt: new THREE.Vector3(0, 0, 0),
+        lookAt: new THREE.Vector3(0, 0, -13),
       },
     };
 
@@ -38,7 +38,7 @@ export default class Background extends React.Component {
             this.state.camera.position.y,
             20 * Math.sin(new Date().getTime() * 0.0001),
           ),
-          lookAt: new THREE.Vector3(0, 0, -10),
+          lookAt: new THREE.Vector3(0, 0, -13),
         },
         cubes: this.state.cubes.map((cube, i) => ({
           color: cube.color,
@@ -114,3 +114,4 @@ export default class Background extends React.Component {
     );
   }
 }
+
