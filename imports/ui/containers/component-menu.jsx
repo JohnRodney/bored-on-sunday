@@ -22,7 +22,7 @@ export default class ComponentMenu extends React.Component {
     return (
       <div
         onMouseLeave={() => this.setState({ showMenu: false })}
-        className="component-menu"
+        className={`component-menu ${this.props.fullscreen ? 'fullscreen' : ''}`}
       >
         <FontAwesome
           className="menu-icon"
@@ -52,4 +52,5 @@ ComponentMenu.propTypes = {
     callback: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
+  fullscreen: PropTypes.bool.isRequired,
 };

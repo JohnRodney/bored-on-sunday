@@ -54,7 +54,7 @@ export default class Terminal extends React.Component {
     } catch (e) { component = false; }
     if (component) this.props.childProps.addComponent(component);
 
-    this.setState({ err: res.err, content: res.out, details: res.details });
+    this.setState({ err: res.err, content: component ? '' : res.out, details: res.details });
   }
 
   runCode() {

@@ -8,17 +8,43 @@ export default class ComponentContainer extends React.Component {
     super();
     this.state = {
       button: false,
+      fullscreen: false,
     };
+
+    this.hasBeenSetToFullscreen = false;
     this.MenuItems = [{
       name: 'window-close',
       callback: () => this.setState({ button: true }),
     }, {
       name: 'trash',
-      callback: () => console.log('trash'),
+      callback: () => this.setState({ trash: true }),
     }, {
       name: 'television',
-      callback: () => console.log('fullscreen'),
+      callback: () => this.setState({ fullscreen: !this.state.fullscreen }),
     }];
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('hello', nextState.fullscreen, !this.hasBeenSetToFullscreen)
+    if (nextState.fullscreen && !this.hasBeenSetToFullscreen) { this.setToFullScreen(); }
+    if (!nextState.fullscreen && this.hasBeenSetToFullscreen) { this.toggleOffFullScreen(); }
+  }
+
+  setToFullScreen() {
+    const { clientWidth, clientHeight } = document.body;
+    this.oldSize = {
+      width: this.rnd.wrapper.offsetWidth,
+      height: this.rnd.wrapper.offsetHeight,
+    };
+
+    this.rnd.updateSize({ width: clientWidth - 40, height: clientHeight - 80 });
+    this.hasBeenSetToFullscreen = true;
+  }
+
+  toggleOffFullScreen() {
+    const { width, height } = this.oldSize;
+    this.rnd.updateSize({ width, height });
+    this.hasBeenSetToFullscreen = false;
   }
 
   render() {
@@ -44,7 +70,10 @@ export default class ComponentContainer extends React.Component {
         bounds=".page"
       >
         <div className={`a-component ${this.state.button ? 'component-as-button' : ''}`}>
-          { this.state.button ? label : <ComponentMenu items={this.MenuItems} /> }
+          {
+            this.state.button ? label :
+            <ComponentMenu fullscreen={this.state.fullscreen} items={this.MenuItems} />
+          }
           <Content childProps={this.props.childProps} />
         </div>
       </ResizableBox>
