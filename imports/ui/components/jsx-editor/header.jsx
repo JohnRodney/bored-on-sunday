@@ -17,6 +17,12 @@ export default class EditorHeader extends React.Component {
     };
   }
 
+  componentDidMount() {
+    Meteor.subscribe('files', () => {
+      this.setState({ files: Files.find().fetch()});
+    });
+  }
+
   justChanged(option, nextState) {
     return this.state.currentExecution !== option && nextState.currentExecution === option;
   }
@@ -26,7 +32,12 @@ export default class EditorHeader extends React.Component {
       this.props.codeMirrorInstance.setValue('');
     } else if (this.justChanged('save', nextState)) {
       const filename = document.getElementById(`${this.state.id}-filename`).value;
-      Files.insert({ name: filename, content: this.props.codeMirrorInstance.getValue() });
+      const { _id } = Files.findOne({ name: filename }) ? Files.findOne({ name: filename }) : { _id: undefined };
+      console.log(_id)
+      Files.update(_id, { $set: { name: filename, content: this.props.codeMirrorInstance.getValue() } }, { upsert: true }, (err, res) => {
+        if (err) { alert(err) }
+        else alert(res)
+      });
     } else if (this.justChanged('load', nextState)) {
       Meteor.subscribe('files', () => {
         this.setState({ files: Files.find().fetch(), showFiles: true });
