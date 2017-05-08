@@ -1,6 +1,6 @@
 import React from 'react';
 import Terminal from './terminal';
-import JsxEditor from './jsxeditor';
+import JsxEditor from './components/jsx-editor/editor';
 import ComponentContainer from './containers/component-container';
 import Drawer from './drawer';
 /* TODO: in order for a created component to have a dependency via

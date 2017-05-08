@@ -187,6 +187,7 @@ canvas{
   z-index: 2;
 }
 .hide * {
+  pointer-events: none;
   opacity: 0;
 }
 .drawer-container{
@@ -301,3 +302,76 @@ p.thought:before{
   bottom: 80px;
   left: 40px;
 }
+.editor-menu-option{
+  cursor: pointer;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: top;
+  height: 20px;
+  text-transform: uppercase;
+  z-index: 2px;
+  padding-right: 80px;
+  position: relative;
+}
+.editor-menu-option.active{
+  background-color: white;
+  color: black;
+
+}
+.sub-menu-content{
+  top: 40px;
+  width: auto;
+  left: 0;
+  position: absolute;
+  background-color: #545454;
+  color: white;
+  box-shadow: 0 0 5px black;
+}
+.editor-menu{
+  position: relative;
+  z-index: 2;
+}
+.editor-content{
+  position: relative;
+  z-index: 1;
+}
+.editor-submenu-option{
+  padding: 10px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+.editor-submenu-option:hover{
+  color: #545454;
+  background-color: white;
+}
+.filename-input-container{
+  padding-top: 5px;
+  float: right;
+}
+.filename-input-container input{
+  height: 30px;
+  margin-left: 10px;
+  padding-left: 10px;
+  outline: none;
+  border: none;
+  background-color: #656565;
+  color: #FFF9C4;
+}
+.files-container{
+  top: 100px;
+  left: 100px;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  color: black;
+}
+.a-file{
+  padding: 5px;
+}
+.a-file:hover{
+  background-color: #545454;
+  color: white;
+  cursor: pointer;
+}
+

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { exec } from 'child_process';
 import '../imports/api/collections/routes/publish';
+import '../imports/api/collections/files/publish';
 
 Meteor.startup(() => {
   Meteor.methods({

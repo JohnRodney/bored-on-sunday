@@ -2,9 +2,9 @@ import React from 'react';
 import CodeMirror from 'codemirror';
 import { Meteor } from 'meteor/meteor';
 import 'codemirror/mode/jsx/jsx';
-import boilerPlate from './boilerplate';
 import PropTypes from 'prop-types';
-
+import boilerPlate from './boilerplate';
+import Header from './header';
 
 export default class CodeEditor extends React.Component {
   constructor() {
@@ -21,7 +21,6 @@ export default class CodeEditor extends React.Component {
     if (nextProps.fullscreen && !this.props.fullscreen) {
       this.goFullScreen(document.body.clientWidth - 40, document.body.clientHeight - 80);
     } else if (!nextProps.fullscreen && this.props.fullscreen) {
-      console.log('leaving')
       this.leaveFullScreen();
     }
   }
@@ -72,7 +71,7 @@ export default class CodeEditor extends React.Component {
 
   defaultLayout() {
     return (
-      <div>
+      <div className="editor-content">
         <div
           onMouseDown={e => e.stopPropagation()}
           className="code-mirror-container"
@@ -93,6 +92,7 @@ export default class CodeEditor extends React.Component {
     const defaultLayout = this.defaultLayout();
     return (
       <div className="code-editor">
+        <Header codeMirrorInstance={this.state.jsxEditor} />
         { defaultLayout }
       </div>
     );
