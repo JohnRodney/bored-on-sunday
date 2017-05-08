@@ -14,17 +14,22 @@ export default class Drawer extends React.Component {
     return (
       <div>
         <div className={`tool-box-container ${this.state.show ? '' : 'hide'}`}>
-          <div className="drawer-container">
+          <div className={`drawer-container ${this.state.show ? '' : 'hide'}`}>
             <div className="close" onClick={() => this.setState({ show: false })} />
             <ol>
               {
                 toolBox.map(tool => (
                   <li
                     className="a-tool" key={`drawer-tool-${tool.label}`}
-                    onClick={() => this.props.addComponent(tool.Component)}
+                    onClick={() => { this.props.addComponent(tool.Component); this.setState({ show: false }); }}
                   >
-                    <span className="tool-name">{tool.name}</span>
-                    <span className="tool-description">{tool.description}</span>
+                    <div className="tool-add">
+                      <span className="fa fa-plus" />
+                    </div>
+                    <div className="tool-content">
+                      <span className="tool-name">{tool.name}</span>
+                      <span className="tool-description">{tool.description}</span>
+                    </div>
                   </li>
                 ))
               }

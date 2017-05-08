@@ -57,19 +57,21 @@ ul{
   overflow-y: scroll;
 }
 .component-as-button.a-component{
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   overflow: hidden;
   border-radius: 100%;
   padding: 0;
-  background-color: #545454;
-  box-shadow: 0 0 10px #686868;
+  background-color: #039BE5;
+  color: white;
   max-height: 100%;
 }
 .resize-component-as-button.react-draggable.react-draggable-dragged,
 .resize-component-as-button.react-draggable.react-draggable-dragged > div{
-  width: 60px !important;
-  height: 60px  !important;
+  box-shadow: 0 0 10px black;
+  border-radius: 100%;
+  width: 40px !important;
+  height: 40px  !important;
   overflow: hidden;
 }
 .component-as-button button{
@@ -84,12 +86,11 @@ ul{
 .close:after{
   padding: 5px 10px 5px 10px;
   border-radius: 100%;
-  background-color: #656565;
-  color: #FF5722;
+  color: black;
   content: 'X';
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   z-index: 10;
 }
 .textarea{
@@ -145,7 +146,7 @@ ul{
 }
 .component-menu{
   position: absolute;
-  top: 20px;
+  top: 0;
   right: -50px;
   z-index: 2;
 }
@@ -185,16 +186,20 @@ canvas{
   height: 100%;
   z-index: 2;
 }
+.hide * {
+  opacity: 0;
+}
 .drawer-container{
+  transition: width .2s ease-in-out, opacity .4s ease-in-out;
   padding: 20px;
   padding-top: 60px;
-  width: calc(40% - 40px);
-  background-color: #545454;
+  width: 50%;
+  background-color: white;
   box-shadow: 0 0 20px #545454;
   height: 100%;
   position: relative;
   z-index: 2;
-  color: white;
+  color: black;
 }
 .drawer-container li{
   list-style: none;
@@ -207,6 +212,10 @@ canvas{
   height: 100%;
   width: 100%;
   z-index: 1;
+}
+.open-toolbox-drawer:hover{
+  color: #039BE5;
+  background-color: white;
 }
 .open-toolbox-drawer{
   position: absolute;
@@ -224,17 +233,71 @@ canvas{
   color: white;
 }
 .a-tool:hover{
-  background-color: #343434;
+  background-color: #efefef;
 }
 .a-tool{
-  width: calc(100% - 40px);
-  margin-bottom: 20px;
-  background-color: #767676;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 2px black;
+  padding: 15px;
+  border-bottom: 1px solid #039BE5;
 }
 .tool-name{
   margin-right: 10px;
-  color: #FF7043;
+  color: #03A9F4;
+}
+.tool-add{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  background-color: #039BE5;
+  color: white;
+  text-align: center;
+  margin-right: 10px;
+  border-radius: 100%;
+  box-shadow: 0 0 5px black;
+}
+.tool-add span{
+  margin-top: 12px;
+}
+.tool-content{
+  display: inline-block;
+  width: calc(100% - 50px);
+  vertical-align: middle;
+}
+p.thought {
+  position: relative;
+  padding: 20px;
+  width: auto;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, .7);
+  border: 2px solid #666;
+  box-shadow: 0 0 10px black;
+}
+p.thought:after{
+  bottom: -20px;
+  left: 20px;
+  position: absolute;
+  border-top: 20px solid transparent;
+  border-left: 20px solid rgba(0, 0, 0, .7);
+  content: '';
+  display: inline-block;
+  transform: scaleY(-1);
+  z-index: 1;
+}
+p.thought:before{
+  bottom: -16px;
+  left: 22px;
+  position: absolute;
+  border-top: 16px solid transparent;
+  border-left: 16px solid rgba(255, 255, 255, .8);
+  content: '';
+  display: inline-block;
+  transform: scaleY(-1);
+  z-index: 2;
+}
+.tool-box-icon-tip{
+  position: absolute !important;
+  bottom: 80px;
+  left: 40px;
 }

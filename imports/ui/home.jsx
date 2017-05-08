@@ -53,6 +53,7 @@ export default class Home extends React.Component {
     return (
       <div>
         <Drawer toolBox={this.state.toolBox} addComponent={component => this.pushComponent(component)} />
+        { this.state.Components.length === 0 ? <p className="tool-box-icon-tip thought">Add a component to the screen</p> : '' }
         <div className="page">
           {
             this.state.Components.map((Component, i) => (
