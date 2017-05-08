@@ -4,6 +4,9 @@ html, body, .page, #react-root{
   height: 100%;
   position: relative;
 }
+button{
+  outline: none;
+}
 body{
   background: url('http://wallpapercave.com/wp/5TSGE7C.jpg');
   background-size: 100% 100%;
@@ -123,6 +126,7 @@ ul{
 .code-editor{
   padding: 20px;
   padding-right: 60px;
+  min-width: 500px;
   width: calc(100% - 80px);
   height: 100%;
   background-color: #767676;
@@ -358,6 +362,7 @@ p.thought:before{
   color: #FFF9C4;
 }
 .files-container{
+  z-index: 2;
   top: 100px;
   left: 100px;
   position: absolute;
@@ -373,5 +378,14 @@ p.thought:before{
   background-color: #545454;
   color: white;
   cursor: pointer;
+}
+.files-overlay{
+  position: absolute;
+  width: calc(100% + 80px);
+  top: -20px;
+  left: -20px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, .7);
+  z-index: 1;
 }
 

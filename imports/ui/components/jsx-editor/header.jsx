@@ -36,23 +36,26 @@ export default class EditorHeader extends React.Component {
 
   getFileView() {
     return (
-      <div className='files-container'>
-        {
-          this.state.files.map((file) => {
-            return (
-              <div
-                onClick={() => {
-                  this.props.codeMirrorInstance.setValue(file.content);
-                  document.getElementById(`${this.state.id}-filename`).value = file.name;
-                  this.setState({ showFiles: false, currentExecution: 'none' });
-                }}
-                className='a-file'
-              >
-                {file.name}
-              </div>
-            );
-          })
-        }
+      <div className="file-view-container">
+        <div className="files-container">
+          {
+            this.state.files.map((file) => {
+              return (
+                <div
+                  onClick={() => {
+                    this.props.codeMirrorInstance.setValue(file.content);
+                    document.getElementById(`${this.state.id}-filename`).value = file.name;
+                    this.setState({ showFiles: false, currentExecution: 'none' });
+                  }}
+                  className="a-file"
+                >
+                  {file.name}
+                </div>
+              );
+            })
+          }
+        </div>
+        <div className="files-overlay" />
       </div>
     );
   }
