@@ -10,13 +10,6 @@ export default class ComponentMenu extends React.Component {
     };
   }
 
-  /* Menu Items
-   * [{
-   *   icon-name:
-   *   callback:
-   * },
-   * */
-
   render() {
     const { items } = this.props;
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 import Terminal from './terminal';
 import JsxEditor from './jsxeditor';
 import ComponentContainer from './containers/component-container';
+import Drawer from './drawer';
 /* TODO: in order for a created component to have a dependency via
  * import I need to import it here.  Depenedency chain needs to be refactored
  * so users can import any valid publish NPM packages.
@@ -11,17 +12,25 @@ import ComponentContainer from './containers/component-container';
 export default class Home extends React.Component {
   constructor() {
     super();
-    this.state = {
-      Components: [{
-        id: Meteor.uuid(),
-        Component: Terminal,
-        label: 'T',
-      }, {
-        id: Meteor.uuid(),
-        Component: JsxEditor,
-        label: 'J',
-      }],
+    const terminal = {
+      id: Meteor.uuid(),
+      Component: Terminal,
+      label: 'T',
+      name: 'react-terminal-component',
+      description: 'A component for accessing your terminal via the web browser in a meteor environment.',
     };
+    const jsxEditor = {
+      id: Meteor.uuid(),
+      Component: JsxEditor,
+      label: 'J',
+      name: 'react-jsx-editor',
+      description: 'A code mirror jsx editor as a react component saves a file to some.jsx.',
+    };
+    /* TODO: Look for a collection in DB of tools to put in toolbox
+     * */
+
+    const defaultComps = [terminal, jsxEditor];
+    this.state = { Components: defaultComps, toolBox: defaultComps };
   }
 
   pushComponent(component) {
@@ -35,14 +44,15 @@ export default class Home extends React.Component {
   }
 
   removeComponent(i) {
-    const Comps = this.state.Components;
-    const Components = Comps.slice(0, i).concat(Comps.slice(i + 1, Comps.length));
+    const { Components } = this.state;
+    Components.splice(i, 1);
     this.setState({ Components });
   }
 
   render() {
     return (
       <div>
+        <Drawer toolBox={this.state.toolBox} addComponent={component => this.pushComponent(component)} />
         <div className="page">
           {
             this.state.Components.map((Component, i) => (

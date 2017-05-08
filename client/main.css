@@ -157,12 +157,10 @@ ul{
   transition: .5s ease-in-out;
 }
 .hide{
-  opacity: 0;
-  height: 0;
-  width: 0;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
   font-size: 0;
-  padding-top: 20px;
-  padding-left: 20px;
 }
 .terminal-title{
   padding: 10px;
@@ -178,4 +176,65 @@ ul{
 }
 canvas{
   background-color: rgba(0, 0, 0, .6);
+}
+.tool-box-container{
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: 2;
+}
+.drawer-container{
+  padding: 20px;
+  padding-top: 60px;
+  width: calc(40% - 40px);
+  background-color: #545454;
+  box-shadow: 0 0 20px #545454;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+.drawer-container li{
+  list-style: none;
+}
+.drawer-overlay{
+  background-color: rgba(0, 0, 0, .6);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+.open-toolbox-drawer{
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 100%;
+  outline: none;
+  border: none;
+  margin: 20px;
+  box-shadow: 0 0 10px black;
+  z-index: 10;
+  background-color: #039BE5;
+  color: white;
+}
+.a-tool:hover{
+  background-color: #343434;
+}
+.a-tool{
+  width: calc(100% - 40px);
+  margin-bottom: 20px;
+  background-color: #767676;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 2px black;
+}
+.tool-name{
+  margin-right: 10px;
+  color: #FF7043;
 }

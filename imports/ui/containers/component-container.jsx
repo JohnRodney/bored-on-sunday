@@ -69,21 +69,7 @@ export default class ComponentContainer extends React.Component {
       <ResizableBox
         ref={(c) => { this.rnd = c; }}
         className={` ${this.state.button ? 'resize-component-as-button' : ''}`}
-        default={{
-          x: 0,
-          y: 0,
-          width: '90%',
-        }}
-        resizeHandlerClasses={{
-          bottom: 'resize-handle',
-          bottomLeft: 'resize-handle',
-          bottomRight: 'resize-handle',
-          left: 'resize-handle',
-          right: 'resize-handle',
-          top: 'resize-handle',
-          topLeft: 'resize-handle',
-          topRight: 'resize-handle',
-        }}
+        default={{ x: 0, y: 0, width: '90%' }}
         bounds=".page"
       >
         <div className={`a-component ${this.state.button ? 'component-as-button' : ''}`}>
