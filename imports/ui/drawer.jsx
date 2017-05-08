@@ -5,7 +5,7 @@ export default class Drawer extends React.Component {
   constructor() {
     super();
     this.state = {
-      show: true,
+      show: false,
     };
   }
 

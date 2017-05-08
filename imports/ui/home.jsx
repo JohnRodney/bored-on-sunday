@@ -29,8 +29,8 @@ export default class Home extends React.Component {
     /* TODO: Look for a collection in DB of tools to put in toolbox
      * */
 
-    const defaultComps = [terminal, jsxEditor];
-    this.state = { Components: defaultComps, toolBox: defaultComps };
+    const def = () => [terminal, jsxEditor];
+    this.state = { Components: def(), toolBox: def() };
   }
 
   pushComponent(component) {
