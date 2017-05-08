@@ -2,7 +2,6 @@ import React from 'react';
 import Terminal from './terminal';
 import JsxEditor from './jsxeditor';
 import ComponentContainer from './containers/component-container';
-import Background from './background';
 /* TODO: in order for a created component to have a dependency via
  * import I need to import it here.  Depenedency chain needs to be refactored
  * so users can import any valid publish NPM packages.
@@ -35,13 +34,18 @@ export default class Home extends React.Component {
     });
   }
 
+  removeComponent(i) {
+    const Comps = this.state.Components;
+    const Components = Comps.slice(0, i).concat(Comps.slice(i + 1, Comps.length));
+    this.setState({ Components });
+  }
+
   render() {
     return (
       <div>
-        <Background />
         <div className="page">
           {
-            this.state.Components.map(Component => (
+            this.state.Components.map((Component, i) => (
               <div
                 key={`${Component.id}`}
                 className="component-container"
@@ -49,6 +53,9 @@ export default class Home extends React.Component {
                 <ComponentContainer
                   childProps={{
                     addComponent: component => this.pushComponent(component),
+                    removeComponent: (function removeCurry(index) {
+                      return () => this.removeComponent(index);
+                    }.bind(this)(i)),
                   }}
                   content={Component.Component}
                   label={Component.label.toString()}
@@ -58,7 +65,6 @@ export default class Home extends React.Component {
           }
         </div>
       </div>
-
     );
   }
 }

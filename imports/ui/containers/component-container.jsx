@@ -27,6 +27,7 @@ export default class ComponentContainer extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     if (nextState.fullscreen && !this.hasBeenSetToFullscreen) { this.setToFullScreen(); }
     if (!nextState.fullscreen && this.hasBeenSetToFullscreen) { this.toggleOffFullScreen(); }
+    if (nextState.trash && !this.state.trash) { this.props.childProps.removeComponent(); }
   }
 
   setToFullScreen() {
@@ -101,6 +102,7 @@ ComponentContainer.propTypes = {
   content: PropTypes.func.isRequired,
   childProps: PropTypes.shape({
     addComponent: PropTypes.func,
+    removeComponent: PropTypes.func,
   }).isRequired,
   label: PropTypes.string.isRequired,
 };
