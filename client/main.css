@@ -113,7 +113,6 @@ ul{
   background-color: white;
 }
 .page{
-  margin: 20px;
   width: calc(100% - 40px);
 }
 .component-container{
@@ -175,6 +174,9 @@ ul{
 }
 .page, .background{
   position: absolute;
+}
+.background{
+  top: -12px;
 }
 .page{
   opacity: .9;

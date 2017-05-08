@@ -1,6 +1,7 @@
 import React from 'react';
 import Terminal from './terminal';
 import JsxEditor from './components/jsx-editor/editor';
+import Background from './background';
 import ComponentContainer from './containers/component-container';
 import Drawer from './drawer';
 /* TODO: in order for a created component to have a dependency via
@@ -12,6 +13,14 @@ import Drawer from './drawer';
 export default class Home extends React.Component {
   constructor() {
     super();
+    const background = {
+      id: Meteor.uuid(),
+      Component: Background,
+      label: '3d',
+      name: '3js-background',
+      description: 'a react component for lagging out your dom.',
+    };
+
     const terminal = {
       id: Meteor.uuid(),
       Component: Terminal,
@@ -30,7 +39,7 @@ export default class Home extends React.Component {
      * */
 
     const def = () => [terminal, jsxEditor];
-    this.state = { Components: def(), toolBox: def() };
+    this.state = { Components: def(), toolBox: def().concat([background]) };
   }
 
   pushComponent(component) {
