@@ -59,6 +59,9 @@ export default class Terminal extends React.Component {
 
   runCode() {
     const command = this.state.terminal.getValue();
+    if (window.location.href.indexOf('heroku') > -1) {
+      command.replace('babel', '../../../../../node_modules/.bin/babel');
+    }
     this.setState({ command });
     Meteor.call('runCode', command, this.handleTerminalResponse);
   }
